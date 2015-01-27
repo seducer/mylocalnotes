@@ -1,0 +1,11 @@
+
+/* 
+    Created on : 22.12.2014, 14:44:20
+    Author     : igor
+*/
+
+.remove {
+    cursor: pointer;
+}
+
+textarea { resize:vertical; } 

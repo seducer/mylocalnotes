@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html ng-app="noteApp">
+    <head>
+        <title>Мои заметки</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js"></script>
+        
+        <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+        <script src="js/angular-timeago.js"></script>
+        <script src="js/mynoteslocal.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/notes_style.css">
+        <link rel="stylesheet" href="css/jquery.simplecolorpicker.css">
+        <link rel="stylesheet" href="css/jquery.simplecolorpicker-glyphicons.css">
+    </head>
+    <body>
+        <div class="container-fluid">
+            
+            <h1 class="sub-header">Мои заметки</h1>
+            <div ng-controller="NotesContoller">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4">
+                        <form role="form" name="addForm">
+                            <div class="form-group" ng-class="{error: addForm.noteText.$invalid}">
+                                <label for="name">Текст заметки</label>
+                                
+                                <textarea class="form-control" rows="4" maxlength="150" name="text" ng-model="note.noteText" required placeHolder="начните печатать текст"></textarea>
+                                <span ng-show="addForm.noteText.$error.required" class="help-inline">не заполнено</span>
+                            </div>
+                            <div class="form-group">
+                                <bs-select ng-model="note.color"></bs-select>
+                                <span>{{note.color}}</span>
+                            </div>
+                            
+                            <button ng-click="save()" ng-disabled="buttonDisabled || addForm.$invalid" class="btn btn-primary">Добавить</button>
+                        </form>
+                    </div>
+                    <div class="col-xs-12 col-sm-8">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th>Текст</th>
+                                    <th width="20%">Время</th>
+                                    <th width="10%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="note in notes | filter:search " ng-style="{background: note.color}">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{note.noteText}}</td>
+                                    <td data-time="{{note.noteDate | date:'yyyy-MM-dd HH:mm:ss'}}">{{note.noteDate | timeAgo}}</td>
+                                    <!--<td>{{note.noteDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>-->
+                                    <td>
+                                        <a class="remove" ng-click="destroy($index)" title="Удалить"><span class="glyphicon glyphicon-remove"></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.js"></script>
+        <script src="js/jquery.simplecolorpicker.js"></script>
+        <script>
+            $(document).ready(function() {
+                /*$('select[name="colorpicker-shortlist"]').simplecolorpicker({theme: 'glyphicons'}).on('change', function() {
+                    console.log(note.color);
+                });*/
+            });
+        </script>
+    </body>
+</html>
